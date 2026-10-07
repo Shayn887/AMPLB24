@@ -1,0 +1,228 @@
+import { useLayoutEffect, useRef, useState } from 'react';
+import { gsap } from 'gsap';
+import { GoArrowUpRight } from 'react-icons/go';
+import Link from 'next/link';
+
+const CardNav = ({
+  logo,
+  logoAlt = 'Logo',
+  items,
+  className = '',
+  ease = 'power3.out',
+  baseColor = 'rgba(255, 255, 255, 0.2)',
+  menuColor = '#fff',
+  buttonBgColor = '#38bdf8',
+  buttonTextColor = '#000'
+}) => {
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const navRef = useRef(null);
+  const cardsRef = useRef([]);
+  const tlRef = useRef(null);
+
+  const calculateHeight = () => {
+    const navEl = navRef.current;
+    if (!navEl) return 260;
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (isMobile) {
+      const contentEl = navEl.querySelector('.card-nav-content');
+      if (contentEl) {
+        const wasVisible = contentEl.style.visibility;
+        const wasPointerEvents = contentEl.style.pointerEvents;
+        const wasPosition = contentEl.style.position;
+        const wasHeight = contentEl.style.height;
+
+        contentEl.style.visibility = 'visible';
+        contentEl.style.pointerEvents = 'auto';
+        contentEl.style.position = 'static';
+        contentEl.style.height = 'auto';
+
+        contentEl.offsetHeight;
+
+        const topBar = 60;
+        const padding = 24;
+        const contentHeight = contentEl.scrollHeight;
+
+        contentEl.style.visibility = wasVisible;
+        contentEl.style.pointerEvents = wasPointerEvents;
+        contentEl.style.position = wasPosition;
+        contentEl.style.height = wasHeight;
+
+        const maxHeight = window.innerHeight - 40;
+        return Math.min(topBar + contentHeight + padding, maxHeight);
+      }
+    }
+    return 260;
+  };
+
+  const createTimeline = () => {
+    const navEl = navRef.current;
+    if (!navEl) return null;
+
+    gsap.set(navEl, { height: 60, overflow: 'hidden' });
+    gsap.set(cardsRef.current, { y: 30, opacity: 0 });
+
+    const tl = gsap.timeline({ paused: true });
+
+    tl.to(navEl, {
+      height: calculateHeight,
+      duration: 0.4,
+      ease
+    });
+
+    tl.to(cardsRef.current, { y: 0, opacity: 1, duration: 0.3, ease, stagger: 0.06 }, '-=0.15');
+
+    return tl;
+  };
+
+  useLayoutEffect(() => {
+    const tl = createTimeline();
+    tlRef.current = tl;
+
+    return () => {
+      tl?.kill();
+      tlRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ease, items]);
+
+  useLayoutEffect(() => {
+    const handleResize = () => {
+      if (!tlRef.current) return;
+
+      if (isExpanded) {
+        const newHeight = calculateHeight();
+        gsap.set(navRef.current, { height: newHeight });
+
+        tlRef.current.kill();
+        const newTl = createTimeline();
+        if (newTl) {
+          newTl.progress(1);
+          tlRef.current = newTl;
+        }
+      } else {
+        tlRef.current.kill();
+        const newTl = createTimeline();
+        if (newTl) {
+          tlRef.current = newTl;
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isExpanded]);
+
+  const toggleMenu = () => {
+    const tl = tlRef.current;
+    if (!tl) return;
+    if (!isExpanded) {
+      setIsHamburgerOpen(true);
+      setIsExpanded(true);
+      tl.play(0);
+    } else {
+      setIsHamburgerOpen(false);
+      tl.eventCallback('onReverseComplete', () => setIsExpanded(false));
+      tl.reverse();
+    }
+  };
+
+  const setCardRef = i => el => {
+    if (el) cardsRef.current[i] = el;
+  };
+
+  return (
+    <div className={`card-nav-container relative w-full max-w-[800px] mt-4 md:mt-6 ${className}`}>
+      <nav
+        ref={navRef}
+        className={`card-nav ${isExpanded ? 'open' : ''} block h-[60px] p-0 rounded-2xl shadow-2xl relative overflow-hidden will-change-[height] border border-white/20 backdrop-blur-xl backdrop-saturate-150 transition-colors duration-300`}
+        style={{ backgroundColor: baseColor }}
+      >
+        {/* Top bar */}
+        <div className="card-nav-top absolute inset-x-0 top-0 h-[60px] flex items-center justify-between px-3 md:px-4 z-[2]">
+          <div
+            className={`hamburger-menu ${isHamburgerOpen ? 'open' : ''} group h-full flex flex-col items-center justify-center cursor-pointer gap-[5px] order-2 md:order-none p-2`}
+            onClick={toggleMenu}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleMenu();
+              }
+            }}
+            role="button"
+            aria-label={isExpanded ? 'Close menu' : 'Open menu'}
+            aria-expanded={isExpanded}
+            tabIndex={0}
+            style={{ color: menuColor || '#fff' }}
+          >
+            <div
+              className={`hamburger-line w-[24px] sm:w-[28px] h-[2px] bg-current transition-transform duration-300 ease-out [transform-origin:50%_50%] ${
+                isHamburgerOpen ? 'translate-y-[3.5px] rotate-45' : ''
+              } group-hover:opacity-75`}
+            />
+            <div
+              className={`hamburger-line w-[24px] sm:w-[28px] h-[2px] bg-current transition-transform duration-300 ease-out [transform-origin:50%_50%] ${
+                isHamburgerOpen ? '-translate-y-[3.5px] -rotate-45' : ''
+              } group-hover:opacity-75`}
+            />
+          </div>
+
+          <div className="logo-container flex items-center md:absolute md:left-1/2 md:top-1/2 md:-translate-x-1/2 md:-translate-y-1/2 order-1 md:order-none">
+            <Link href="/">
+              <img src={logo} alt={logoAlt} className="logo h-[24px] md:h-[28px] w-auto object-contain cursor-pointer" />
+            </Link>
+          </div>
+
+          <Link
+            href="/message"
+            className="card-nav-cta-button hidden md:inline-flex border-0 rounded-xl px-4 py-2 items-center font-bold cursor-pointer transition-transform duration-200 hover:scale-105 active:scale-95 text-xs shadow-md"
+            style={{ backgroundColor: buttonBgColor, color: buttonTextColor }}
+          >
+            Send Message
+          </Link>
+        </div>
+
+        {/* Content Cards */}
+        <div
+          className={`card-nav-content absolute left-0 right-0 top-[60px] bottom-0 p-3 flex flex-col items-stretch gap-2 justify-start z-[1] overflow-y-auto max-h-[calc(100vh-100px)] ${
+            isExpanded ? 'visible pointer-events-auto' : 'invisible pointer-events-none'
+          } md:flex-row md:items-end md:gap-[12px] md:overflow-hidden`}
+          aria-hidden={!isExpanded}
+        >
+          {(items || []).slice(0, 3).map((item, idx) => (
+            <div
+              key={`${item.label}-${idx}`}
+              className="nav-card select-none relative flex flex-col gap-2 p-3 md:p-4 rounded-xl min-w-0 flex-[1_1_auto] h-auto min-h-[55px] md:h-full md:min-h-0 md:flex-[1_1_0%] border border-white/10 shadow-lg"
+              ref={setCardRef(idx)}
+              style={{ backgroundColor: item.bgColor, color: item.textColor }}
+            >
+              <div className="nav-card-label font-bold tracking-tight text-[15px] md:text-[18px]">
+                {item.label}
+              </div>
+              <div className="nav-card-links mt-auto flex flex-col gap-[4px]">
+                {item.links?.map((lnk, i) => (
+                  <Link
+                    key={`${lnk.label}-${i}`}
+                    className="nav-card-link inline-flex items-center gap-[6px] no-underline cursor-pointer transition-opacity duration-200 hover:opacity-70 text-[13px] md:text-[14px]"
+                    href={lnk.href || '#'}
+                    onClick={() => {
+                      if (isExpanded) toggleMenu();
+                    }}
+                    aria-label={lnk.ariaLabel}
+                  >
+                    <GoArrowUpRight className="nav-card-link-icon shrink-0 text-xs md:text-sm" aria-hidden="true" />
+                    {lnk.label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </nav>
+    </div>
+  );
+};
+
+export default CardNav;
