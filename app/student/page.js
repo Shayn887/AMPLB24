@@ -1,5 +1,5 @@
 import Navbar from "../components/Navbar";
-import StudentListPage from "./components/Student";
+import StudentListPage from "@/app/student/Components/Student";
 import Footer from "../components/Footer";
 
 import { getStudents } from "@/lib/students";
