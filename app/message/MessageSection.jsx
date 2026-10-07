@@ -2,40 +2,69 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { studentsData, waliKelas } from "@/data/students";
-import { LockIcon, User, ChevronDown, Check } from "lucide-react";
+import { User, ChevronDown, Check } from "lucide-react";
 import { FaCheckCircle, FaUserSecret, FaInstagram } from "react-icons/fa";
 
 export default function MessageSection() {
-  const rawMembers = [waliKelas, ...studentsData];
-  const allMembers = Array.from(
-    new Map(rawMembers.map((item) => [item.id, item])).values()
-  );
-
-  const getRecipientName = (id) => {
-    const found = allMembers.find((m) => m.id === id);
-    return found ? found.name : id;
-  };
-
+  const [allMembers, setAllMembers] = useState([]);
+  const [recipientId, setRecipientId] = useState("");
+  
+  // State untuk form & pesan
+  const [messages, setMessages] = useState([]);
   const [isAnonymous, setIsAnonymous] = useState(true);
-  const [recipientId, setRecipientId] = useState(allMembers[0]?.id || "");
   const [senderName, setSenderName] = useState("");
   const [senderIg, setSenderIg] = useState("");
   const [messageText, setMessageText] = useState("");
+  const [honeypot, setHoneypot] = useState("");
   const [loading, setLoading] = useState(false);
-
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [sentToName, setSentToName] = useState("");
 
-  const [honeypot, setHoneypot] = useState("");
+  // Helper untuk mendapatkan nama penerima berdasarkan ID
+  const getRecipientName = (id) => {
+    if (!id) return "Seseorang";
+    const foundMember = allMembers.find(
+      (member) => String(member.id) === String(id)
+    );
+    return foundMember ? foundMember.name : "Seseorang";
+  };
 
-  const [messages, setMessages] = useState([]);
+  // Fetch data siswa & wali kelas dari API Supabase
+  const fetchMembers = async () => {
+    try {
+      const res = await fetch("/api/students");
 
+      // Validasi respon bukan HTML
+      const contentType = res.headers.get("content-type");
+      if (!res.ok || !contentType || !contentType.includes("application/json")) {
+        console.error("Gagal mengambil data siswa: API /api/students mengembalikan status/format non-JSON");
+        return;
+      }
+
+      const result = await res.json();
+      const dataList = Array.isArray(result) ? result : result.data || [];
+      setAllMembers(dataList);
+      if (dataList.length > 0) {
+        setRecipientId((prev) => (prev ? prev : dataList[0].id));
+      }
+    } catch (err) {
+      console.error("Gagal mengambil data siswa/wali kelas:", err);
+    }
+  };
+
+  // Fetch data pesan dari API Supabase
   const fetchMessages = async () => {
     try {
       const res = await fetch("/api/messages");
+
+      const contentType = res.headers.get("content-type");
+      if (!res.ok || !contentType || !contentType.includes("application/json")) {
+        console.error("Gagal mengambil pesan: API /api/messages mengembalikan status/format non-JSON");
+        return;
+      }
+
       const result = await res.json();
-      if (res.ok && result.data) {
+      if (result.data) {
         setMessages(result.data);
       }
     } catch (err) {
@@ -44,12 +73,12 @@ export default function MessageSection() {
   };
 
   useEffect(() => {
+    fetchMembers();
     fetchMessages();
   }, []);
 
   const dummyMessages = [
-    { id: 1, recipient_id: "Semua", message: "Hallo Barudak ICB", is_anonymous: true, sender_name: "Anonim" },
-    { id: 2, recipient_id: "Semua", message: "Jangan Toxic yaa ketika kirim pesan ke kelas ini", is_anonymous: false, sender_name: "Admin", sender_ig: "unsc-uk" },
+    { id: 1, message: "Semangat terus guys!", recipient_id: "wali-kelas", is_anonymous: true },
   ];
 
   const displayMessages = messages.length > 0 ? messages : dummyMessages;
@@ -256,7 +285,7 @@ export default function MessageSection() {
                 placeholder="Write your message here..."
                 value={messageText}
                 onChange={(e) => setMessageText(e.target.value)}
-                className="w-full h-full bg-pink-200  rounded-xl p-4 text-sm focus:outline-none text-black placeholder-slate-500 resize-none"
+                className="w-full h-full bg-pink-200 rounded-xl p-4 text-sm focus:outline-none text-black placeholder-slate-500 resize-none"
               />
             </div>
 
@@ -332,7 +361,7 @@ function IpadDropdown({ members, selectedId, onSelect }) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  const selectedMember = members.find((m) => m.id === selectedId);
+  const selectedMember = members.find((m) => String(m.id) === String(selectedId));
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -364,25 +393,32 @@ function IpadDropdown({ members, selectedId, onSelect }) {
             transition={{ duration: 0.15, ease: "easeOut" }}
             className="absolute top-full mt-1 left-0 right-0 w-full max-h-52 overflow-y-auto rounded-2xl bg-pink-950/95 backdrop-blur-xl border border-white/15 shadow-2xl p-1 z-50 text-xs text-slate-200 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
           >
-            {members.map((m) => {
-              const isSelected = m.id === selectedId;
-              return (
-                <div
-                  key={m.id}
-                  onClick={() => {
-                    onSelect(m.id);
-                    setIsOpen(false);
-                  }}
-                  className={`flex items-center justify-between px-3 py-2 my-0.5 rounded-xl cursor-pointer transition-colors ${isSelected
-                      ? "bg-pink-500/25 text-slate-200 font-semibold"
-                      : "hover:bg-white/10 text-slate-200"
+            {members.length === 0 ? (
+              <div className="px-3 py-2 text-slate-400 italic text-center">
+                Belum ada data siswa
+              </div>
+            ) : (
+              members.map((m) => {
+                const isSelected = String(m.id) === String(selectedId);
+                return (
+                  <div
+                    key={m.id}
+                    onClick={() => {
+                      onSelect(m.id);
+                      setIsOpen(false);
+                    }}
+                    className={`flex items-center justify-between px-3 py-2 my-0.5 rounded-xl cursor-pointer transition-colors ${
+                      isSelected
+                        ? "bg-pink-500/25 text-slate-200 font-semibold"
+                        : "hover:bg-white/10 text-slate-200"
                     }`}
-                >
-                  <span className="truncate">{m.name}</span>
-                  {isSelected && <Check className="w-3.5 h-3.5 text-white shrink-0 ml-1.5" />}
-                </div>
-              );
-            })}
+                  >
+                    <span className="truncate">{m.name}</span>
+                    {isSelected && <Check className="w-3.5 h-3.5 text-white shrink-0 ml-1.5" />}
+                  </div>
+                );
+              })
+            )}
           </motion.div>
         )}
       </AnimatePresence>

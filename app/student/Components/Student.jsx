@@ -3,23 +3,50 @@
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import ImageWithSkeleton from '@/app/components/ImageWithSkeleton';
-import { waliKelas } from '@/data/students';
 import { ArrowUpRight, Search } from 'lucide-react';
 
-export default function StudentListPage({ students }) {
+export default function StudentListPage({ students = [] }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [visibleCount, setVisibleCount] = useState(8);
 
+  const waliKelas = useMemo(() => {
+    return (
+      students.find(
+        (s) =>
+          s.id === 'wali-kelas' ||
+          s.role?.toLowerCase().includes('teacher') ||
+          s.role?.toLowerCase().includes('homeroom')
+      ) || {
+        id: 'wali-kelas',
+        name: 'Kalina Juliana S.Pd.',
+        role: 'Homeroom Teacher',
+        image: '/default-avatar.png',
+        instagram: 'kalinajuliana70',
+        quote: 'Always Happy!'
+      }
+    );
+  }, [students]);
+
+ const classMembers = useMemo(() => {
+    return students.filter(
+      (s) =>
+        s.id !== waliKelas?.id &&
+        s.id !== 'wali-kelas' &&
+        !s.role?.toLowerCase().includes('teacher') &&
+        !s.role?.toLowerCase().includes('homeroom')
+    );
+  }, [students, waliKelas]);
+
   const filteredStudents = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return students;
+    if (!query) return classMembers;
 
-    return students.filter((student) => {
+    return classMembers.filter((student) => {
       return [student.name, student.nickname, student.role, student.instagram]
         .filter(Boolean)
         .some((value) => value.toLowerCase().includes(query));
     });
-  }, [students, searchQuery]);
+  }, [classMembers, searchQuery]);
 
   const displayedStudents = searchQuery
     ? filteredStudents

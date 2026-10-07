@@ -2,7 +2,7 @@ import React from "react";
 import { notFound } from "next/navigation";
 
 import Navbar from "@/app/components/Navbar";
-import { waliKelas } from "@/data/students";
+// IMPOR WALI KELAS DIHAPUS DARI SINI
 import { getStudents } from "@/lib/students";
 
 import Header from "./components/Header";
@@ -19,11 +19,12 @@ import StudentMessageList from "@/app/components/messages/StudentMessageList";
 export default async function StudentDetailPage({ params }) {
   const { id } = await params;
 
-  // Ambil data siswa dari Supabase
+  // Ambil data siswa & wali kelas dari Supabase
   const students = await getStudents();
 
-  // Untuk sementara wali kelas masih dari students.js
-  const allMembers = [waliKelas, ...students];
+  // Karena data Supabase sudah mencakup semua anggota (termasuk wali kelas),
+  // langsung gunakan `students` sebagai `allMembers`
+  const allMembers = students;
 
   const currentIndex = allMembers.findIndex(
     (member) => String(member.id) === String(id)

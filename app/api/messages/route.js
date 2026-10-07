@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// GET: Mengambil daftar pesan
+// ==========================================
+// GET - Mengambil daftar pesan
+// ==========================================
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url);
@@ -24,24 +26,44 @@ export async function GET(request) {
     const { data, error } = await query;
 
     if (error) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
+      return NextResponse.json(
+        { message: error.message },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ data }, { status: 200 });
+    return NextResponse.json(
+      { data },
+      { status: 200 }
+    );
   } catch (err) {
-    return NextResponse.json({ message: err.message }, { status: 500 });
+    return NextResponse.json(
+      { message: err.message },
+      { status: 500 }
+    );
   }
 }
 
-// POST: Mengirim pesan baru
+// ==========================================
+// POST - Mengirim pesan baru
+// ==========================================
 export async function POST(request) {
   try {
     const body = await request.json();
-    const { recipient_id, message, is_anonymous, sender_name, sender_ig } = body;
+
+    const {
+      recipient_id,
+      message,
+      is_anonymous,
+      sender_name,
+      sender_ig,
+    } = body;
 
     if (!recipient_id || !message) {
       return NextResponse.json(
-        { message: "Recipient ID dan pesan wajib diisi." },
+        {
+          message: "Recipient ID dan pesan wajib diisi.",
+        },
         { status: 400 }
       );
     }
@@ -49,9 +71,9 @@ export async function POST(request) {
     const payload = {
       recipient_id,
       message,
-      is_anonymous,
-      sender_name: is_anonymous ? null : sender_name,
-      sender_ig: is_anonymous ? null : sender_ig,
+      is_anonymous: Boolean(is_anonymous),
+      sender_name: is_anonymous ? null : sender_name || null,
+      sender_ig: is_anonymous ? null : sender_ig || null,
     };
 
     const { data, error } = await supabase
@@ -60,11 +82,23 @@ export async function POST(request) {
       .select();
 
     if (error) {
-      return NextResponse.json({ message: error.message }, { status: 400 });
+      return NextResponse.json(
+        { message: error.message },
+        { status: 400 }
+      );
     }
 
-    return NextResponse.json({ message: "Pesan berhasil dikirim!", data }, { status: 201 });
+    return NextResponse.json(
+      {
+        message: "Pesan berhasil dikirim!",
+        data,
+      },
+      { status: 201 }
+    );
   } catch (err) {
-    return NextResponse.json({ message: err.message }, { status: 500 });
+    return NextResponse.json(
+      { message: err.message },
+      { status: 500 }
+    );
   }
 }
