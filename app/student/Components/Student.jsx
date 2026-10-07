@@ -3,6 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import Link from 'next/link';
 import ImageWithSkeleton from '@/app/components/ImageWithSkeleton';
+import StudentListPage from "@/app/components/Student";
 import { ArrowUpRight, Search } from 'lucide-react';
 
 export default function StudentListPage({ students = [] }) {
