@@ -22,7 +22,6 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Navbar hanya muncul setelah loading selesai */}
       {!isLoading && <Navbar />}
 
       <Header />

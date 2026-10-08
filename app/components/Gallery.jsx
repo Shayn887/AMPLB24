@@ -10,9 +10,8 @@ const cards = [
     id: 1,
     content: (
       <div>
-        <p className="font-bold text-white text-xl md:text-2xl">Pentas Seni</p>
+        <p className="font-bold text-white text-xl md:text-2xl">Kita Semua</p>
         <p className="font-normal text-white text-sm my-2">
-          Personal captures and coding moments.
         </p>
       </div>
     ),
@@ -23,27 +22,26 @@ const cards = [
     id: 2,
     content: (
       <div>
-        <p className="font-bold text-white text-xl md:text-2xl">Majelis Takdim</p>
+        <p className="font-bold text-white text-xl md:text-2xl">17 Agustus Carnaval</p>
         <p className="font-normal text-white text-sm my-2">
-          17 Agustus Karnaval Event!  
+          Black Monkey & Ibu ibu
         </p>
       </div>
     ),
     className: "col-span-1 min-h-[300px]",
-    thumbnail: assets.nemo2.src,
+    thumbnail: assets.nemo7.src,
   },
   {
     id: 3,
     content: (
       <div>
-        <p className="font-bold text-white text-xl md:text-2xl">Happy!</p>
+        <p className="font-bold text-white text-xl md:text-2xl">Say Twoo!</p>
         <p className="font-normal text-white text-sm my-2">
-          Rehan,Sena and the best teacher.
         </p>
       </div>
     ),
     className: "col-span-1 min-h-[300px]",
-    thumbnail: assets.nemo4.src,
+    thumbnail: assets.nemo5.src,
   },
   {
     id: 4,
@@ -51,7 +49,6 @@ const cards = [
       <div>
         <p className="font-bold text-white text-xl md:text-2xl">We All</p>
         <p className="font-normal text-white text-sm my-2">
-          XII RPL picture.
         </p>
       </div>
     ),

@@ -93,10 +93,6 @@ function DestinationCard({ item, index }) {
       <div className="absolute inset-x-0 bottom-0 p-6 sm:p-7">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-black/30 backdrop-blur-md px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-300">
-              <Icon className="w-3.5 h-3.5" />
-              {item.eyebrow}
-            </div>
             <h3 className="mt-4 text-2xl sm:text-3xl font-bold text-white">
               {item.title}
             </h3>

@@ -320,15 +320,15 @@ export default function MessageSection() {
               animate={{ scale: 1, opacity: 1, y: 0 }}
               exit={{ scale: 0.7, opacity: 0, y: 30 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
-              className="bg-stone-900 rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-2xl relative overflow-hidden"
+              className="bg-slate-950 rounded-3xl p-8 max-w-sm w-full text-center space-y-5 shadow-2xl relative overflow-hidden"
             >
-              <div className="absolute -top-12 -left-12 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute -top-12 -left-12 w-32 h-32 bg-violet-500/20 rounded-full blur-2xl pointer-events-none" />
 
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-sky-400 text-3xl"
+                className="w-16 h-16 rounded-full flex items-center justify-center mx-auto text-pink-400 text-3xl"
               >
                 <FaCheckCircle className="w-14 h-14" />
               </motion.div>
@@ -337,14 +337,14 @@ export default function MessageSection() {
                 <h3 className="text-xl font-bold text-white">The message has been sent.</h3>
                 <p className="text-xs text-slate-400">
                   Your message has been successfully sent specifically for{" "}
-                  <span className="font-semibold text-sky-300">{sentToName}</span>.
+                  <span className="font-semibold text-pink-300">{sentToName}</span>.
                 </p>
               </div>
 
               <button
                 type="button"
                 onClick={() => setShowSuccessModal(false)}
-                className="w-full py-2.5 bg-slate-200 hover:bg-sky-400 text-slate-950 font-bold rounded-xl text-sm transition-all"
+                className="w-full py-2.5 bg-slate-200 hover:bg-pink-400 text-slate-950 font-bold rounded-xl text-sm transition-all"
               >
                 Done
               </button>

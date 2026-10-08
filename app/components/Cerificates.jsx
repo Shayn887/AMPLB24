@@ -8,11 +8,10 @@ import AccordionGallery from "./reactbits/AccordionGallery";
 
 const Certificates = () => {
     const items = [
-        { image: assets.nemo3.src || assets.nemo3, label: 'MarketDay!' },
-        { image: assets.nemo4.src || assets.nemo4, label: '17 Agustus Carnaval!' },
-        { image: assets.nemo6.src || assets.nemo6, label: 'Player too' },
-        { image: assets.nemo2.src || assets.nemo2, label: 'Event' },
-        { image: assets.nemo.src || assets.nemo, label: 'Shall we?' }
+        { image: assets.nemo3.src || assets.nemo3, label: 'Ini Adalah' },
+        { image: assets.nemo4.src || assets.nemo4, label: 'Moment' },
+        { image: assets.nemo6.src || assets.nemo6, label: 'Terbaik' },
+        { image: assets.nemo.src || assets.nemo, label: 'Kami' },
     ];
 
     return (

@@ -24,7 +24,7 @@ const Navbar = () => {
     const items = [
         {
             label: "Main",
-            bgColor: "#111827",
+            bgColor: "#40113E",
             textColor: "#ffffff",
             links: [
                 { label: "Home", ariaLabel: "Home Page", href: "/" }
@@ -32,7 +32,7 @@ const Navbar = () => {
         },
         {
             label: "Messages",
-            bgColor: "#1F2937",
+            bgColor: "#371F22",
             textColor: "#ffffff",
             links: [
                 { label: "Send Message", ariaLabel: "Send Message", href: "/message" }
@@ -40,7 +40,7 @@ const Navbar = () => {
         },
         {
             label: "Classroom",
-            bgColor: "#0F172A",
+            bgColor: "#1F0F2A",
             textColor: "#ffffff",
             links: [
                 { label: "All Students", ariaLabel: "All Students", href: "/student" },
@@ -63,7 +63,7 @@ const Navbar = () => {
                             logo={logo.src || logo}
                             logoAlt="Classroom Logo"
                             items={items}
-                            baseColor="rgba(17, 24, 39, 0.65)"
+                            baseColor="rgba(34, 17, 39, 0.65)"
                             menuColor="#ffffff"
                             buttonBgColor="#1F2937"
                             buttonTextColor="#ffffff"
