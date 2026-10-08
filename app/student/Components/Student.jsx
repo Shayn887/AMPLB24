@@ -20,7 +20,7 @@ export default function StudentListPage({ students = [] }) {
         id: 'wali-kelas',
         name: 'Kalina Juliana S.Pd.',
         role: 'Homeroom Teacher',
-        image: '/default-avatar.png',
+        image: '',
         instagram: 'kalinajuliana70',
         quote: 'Always Happy!'
       }

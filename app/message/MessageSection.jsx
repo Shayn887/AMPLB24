@@ -264,14 +264,14 @@ export default function MessageSection() {
                     placeholder="Name"
                     value={senderName}
                     onChange={(e) => setSenderName(e.target.value)}
-                    className="w-full bg-pink-200/80 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400 text-black placeholder-slate-500"
+                    className="w-full bg-pink-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400 text-black placeholder-slate-500"
                   />
                   <input
                     type="text"
                     placeholder="Your Instagram (e.g. username)"
                     value={senderIg}
                     onChange={(e) => setSenderIg(e.target.value)}
-                    className="w-full bg-pink-200/80 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400 text-black placeholder-slate-500"
+                    className="w-full bg-pink-200 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-teal-400 text-black placeholder-slate-500"
                   />
                 </motion.div>
               )}

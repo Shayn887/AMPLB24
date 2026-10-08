@@ -11,9 +11,9 @@ const Gallery = ({ student, photos }) => {
   ].filter(Boolean); 
 
   const defaultImages = [
-    "https://picsum.photos/id/1005/400/400",
-    "https://picsum.photos/id/1012/400/400",
-    "https://picsum.photos/id/1027/800/600",
+    "https://picsum.photos/id/1002/400/400",
+    "https://picsum.photos/id/1042/400/400",
+    "https://picsum.photos/id/1044/800/600",
   ];
 
   const displayImages = [

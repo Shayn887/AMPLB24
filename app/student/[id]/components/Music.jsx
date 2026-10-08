@@ -4,17 +4,14 @@ import React, { useState } from "react";
 import { BsSpotify } from "react-icons/bs";
 import { Music2 } from "lucide-react";
 
-// Helper ekstraksi Track ID menggunakan Regex
 const extractTrackId = (input, defaultId) => {
   if (!input || typeof input !== "string") return defaultId;
 
-  // Regex mencari 22 karakter Alfanumerik khas Spotify ID
   const match = input.match(/track\/([a-zA-Z0-9]{22})/);
   if (match && match[1]) {
     return match[1];
   }
 
-  // Jika user menginputkan ID murni (22 karakter) tanpa URL
   const cleanInput = input.trim().split("?")[0];
   if (cleanInput.length === 22 && /^[a-zA-Z0-9]{22}$/.test(cleanInput)) {
     return cleanInput;
@@ -24,9 +21,10 @@ const extractTrackId = (input, defaultId) => {
 };
 
 const Music = ({ spotifyTrackId, spotifyTrackId2, spotifyTrackId3 }) => {
-  const trackId1 = extractTrackId(spotifyTrackId, "3BJe4B8zGnqEdQPMvfVjuS");
+  const trackId1 = extractTrackId(spotifyTrackId, "7uNOlS0fNOYI1ZSzpvGqGm?");
   const trackId2 = extractTrackId(spotifyTrackId2, "7Hc6qcJG4NtyZgbNvQyd8U");
   const trackId3 = extractTrackId(spotifyTrackId3, "1BxfP1L2VP23KuL2R9Z21M");
+  
 
   const [activeTrack, setActiveTrack] = useState(1);
 
@@ -97,7 +95,6 @@ const Music = ({ spotifyTrackId, spotifyTrackId2, spotifyTrackId3 }) => {
           </button>
         </div>
 
-        {/* SPOTIFY EMBED */}
         <div className="relative z-10 rounded-2xl overflow-hidden border border-white/10 bg-black/40 shadow-inner">
           <iframe
             key={currentTrackId}

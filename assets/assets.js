@@ -10,6 +10,7 @@ import nemo4 from './nemo4.webp';
 import nemo5 from './nemo5.webp';
 import nemo6 from './nemo6.webp';
 import nemo7 from './nemo7.webp';
+import nemo8 from './nemo8.png';
 
 export const assets = {
     Logolight,
@@ -23,6 +24,7 @@ export const assets = {
     nemo4,
     nemo5,
     nemo6,
-    nemo7
+    nemo7,
+    nemo8
 };
 
