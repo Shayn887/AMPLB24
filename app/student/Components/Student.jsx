@@ -27,7 +27,7 @@ export default function StudentListPage({ students = [] }) {
     );
   }, [students]);
 
- const classMembers = useMemo(() => {
+  const classMembers = useMemo(() => {
     return students.filter(
       (s) =>
         s.id !== waliKelas?.id &&
@@ -151,6 +151,7 @@ export default function StudentListPage({ students = [] }) {
                 <div className="flex items-center gap-4 sm:gap-5">
                   <div className="relative w-20 h-20 sm:w-[92px] sm:h-[92px] rounded-full overflow-hidden flex-shrink-0 border border-slate-200 bg-slate-100 shadow-inner">
                     <ImageWithSkeleton
+                      key={student.image || 'no-image'}
                       src={student.image}
                       alt={student.name}
                       fill
