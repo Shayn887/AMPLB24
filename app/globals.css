@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
-* {
-  font-family: Outfit;
+/* Pasang font default di body, bukan dengan selektor universal '*' */
+body {
+  font-family: var(--font-outfit), sans-serif;
+}
+
+/* Memaksa semua elemen anak di dalam .font-lora menggunakan font Lora */
+.font-lora,
+.font-lora * {
+  font-family: var(--font-lora), serif !important;
 }

@@ -6,7 +6,6 @@ import Preloader from "./components/Preloader";
 import Navbar from "./components/Navbar";
 import Header from "./components/Header";
 import About from "./components/About";
-import BentoSection from "./components/BentoSection";
 import Gallery from "./components/Gallery";
 import Next from "./components/Next";
 import Certificates from "./components/Cerificates";

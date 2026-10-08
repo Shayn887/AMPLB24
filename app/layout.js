@@ -1,4 +1,4 @@
-import { Outfit, Ovo } from "next/font/google";
+import { Outfit, Ovo, Lora } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -11,6 +11,13 @@ const ovo = Ovo({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-ovo",
+});
+
+// Import font Lora
+const lora = Lora({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-lora",
 });
 
 export const metadata = {
@@ -26,7 +33,7 @@ export default function RootLayout({ children }) {
     <html
       lang="en" className="scroll-smooth" data-scroll-behavior="smooth" suppressHydrationWarning
     >
-      <body className={`${outfit.variable} ${ovo.variable} antialiased`} suppressHydrationWarning>
+      <body className={`${outfit.variable} ${ovo.variable} ${lora.variable} antialiased`} suppressHydrationWarning>
         {children}
       </body>
     </html>

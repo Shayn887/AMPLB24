@@ -131,7 +131,7 @@ const SkeletonFour = () => {
   return (
     <div className="relative flex flex-1 w-full h-full min-h-[10rem] rounded-2xl overflow-hidden group">
       <Image
-        src={assets.memo1 || assets.rplcn24}
+        src={assets.nemo3 || assets.nemo3}
         alt="Captured Memories MPLB 2"
         fill
         className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"

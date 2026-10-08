@@ -13,14 +13,12 @@ function FloatingPhoto({
   priority = false,
   variant = "circle", // 'circle' | 'square' | 'heart' | 'raw'
 }) {
-  // Pilihan styling berdasarkan bentuk yang diinginkan
   const variantStyles = {
     circle: "rounded-full aspect-square overflow-hidden shadow-2xl",
     square: "rounded-2xl aspect-square overflow-hidden shadow-2xl",
-    // Heart menggunakan CSS clip-path (cocok untuk gambar biasa/foto)
-    heart: "aspect-square overflow-hidden shadow-2xl [clip-path:path('M12_21.35l-1.45-1.32C5.4_15.36_2_12.28_2_8.5_2_5.42_4.42_3_7.5_3c1.74_0_3.41.81_4.5_2.09C13.09_3.81_14.76_3_16.5_3_19.58_3_22_5.42_22_8.5c0_3.78-3.4_6.86-8.55_11.54L12_21.35z')]", 
-    // Raw tanpa efek border/clip (cocok untuk SVG/PNG transparan seperti emot)
-    raw: "",
+    heart:
+      "aspect-square overflow-hidden shadow-2xl [clip-path:path('M12_21.35l-1.45-1.32C5.4_15.36_2_12.28_2_8.5_2_5.42_4.42_3_7.5_3c1.74_0_3.41.81_4.5_2.09C13.09_3.81_14.76_3_16.5_3_19.58_3_22_5.42_22_8.5c0_3.78-3.4_6.86-8.55_11.54L12_21.35z')]",
+    raw: "aspect-square",
   };
 
   return (
@@ -39,7 +37,7 @@ function FloatingPhoto({
         alt={alt}
         fill
         priority={priority}
-        sizes="(max-width: 768px) 35vw, 260px"
+        sizes="(max-width: 768px) 52vw, 260px"
         className="object-cover"
       />
       {variant !== "raw" && (
@@ -48,6 +46,18 @@ function FloatingPhoto({
     </motion.div>
   );
 }
+
+/*
+  LAYOUT MOBILE (di bawah sm):
+  - Area teks di tengah (~40% – 62% tinggi layar) dibiarkan kosong.
+  - Cluster ATAS  : 1 foto besar (kiri) + 2 foto kecil bertumpuk (kanan)
+  - Cluster BAWAH : 2 foto kecil bertumpuk (kiri) + 1 foto besar (kanan)
+  - Ukuran memakai min(% lebar, svh) supaya tidak melebar ke area teks
+    di HP yang layarnya pendek.
+  Layout sm ke atas (tablet/desktop) tetap sama seperti sebelumnya.
+*/
+const BIG = "w-[min(52%,23svh)]";
+const SMALL = "w-[min(32%,13svh)]";
 
 export default function Header() {
   return (
@@ -59,96 +69,89 @@ export default function Header() {
       </div>
 
       <div className="relative w-full max-w-7xl h-full mx-auto px-4 flex items-center justify-center p-11">
-
-
+        {/* 1. Atas — besar (kiri) */}
         <FloatingPhoto
-          src={assets.memo}
+          src={assets.nemo}
           alt="Class memory 1"
           priority
           delay={0.1}
           variant="circle"
-          className="
-            top-[8%] left-[8%]
-            w-28 sm:w-36 md:w-44
-            -rotate-6
-            sm:top-[8%] sm:left-[16%]
-            md:top-[6%] md:left-[18%]
-          "
-        />
-
-        {/* 2. Kiri Tengah (Bentuk Kotak Rounded) */}
-        <FloatingPhoto
-          src={assets.Rpls}
-          alt="Class photo 2"
-          delay={0.2}
-          variant="square"
-          className="
-            top-[28%] -left-[2%]
-            w-32 sm:w-40 md:w-48
-            rotate-3
-            sm:left-[0%]
-            md:top-[26%] md:left-[2%]
-          "
-        />
-
-        {/* 3. Kiri Bawah (Lingkaran Sempurna) */}
-        <FloatingPhoto
-          src={assets.rplcn24}
-          alt="Class memory 3"
-          delay={0.3}
-          variant="circle"
-          className="
-            bottom-[6%] left-[0%]
-            w-36 sm:w-44 md:w-52
+          className={`
+            top-[13%] left-[3%] ${BIG}
             -rotate-3
-            sm:left-[2%]
-            md:bottom-[4%] md:left-[5%]
-          "
+            sm:top-[8%] sm:left-[16%] sm:w-36 sm:-rotate-6
+            md:top-[6%] md:left-[18%] md:w-44
+          `}
         />
 
-        {/* 4. Kanan Atas (Bentuk Love / Heart) */}
+        {/* 2. Atas — kecil (kanan, atas) */}
         <FloatingPhoto
-          src={assets.memo1}
+          src={assets.nemo1}
           alt="Class memory 4"
           delay={0.15}
           variant="square"
-          className="
-            top-[8%] right-[8%]
-            w-28 sm:w-36 md:w-44
+          className={`
+            top-[13%] right-[3%] ${SMALL}
             rotate-6
-            sm:top-[8%] sm:right-[16%]
-            md:top-[6%] md:right-[18%]
-          "
+            sm:top-[8%] sm:right-[16%] sm:w-36
+            md:top-[6%] md:right-[18%] md:w-44
+          `}
         />
 
-        {/* 5. Kanan Tengah (Khusus Emot/SVG Transparan tanpa terpotong) */}
+        {/* 3. Atas — kecil (kanan, bawah) */}
         <FloatingPhoto
           src={assets.emot}
           alt="Class memory 5"
           delay={0.25}
           variant="raw"
-          className="
-            top-[32%] -right-[4%]
-            w-28 sm:w-36 md:w-40
-            aspect-square -rotate-0
-            sm:right-[0%]
-            md:top-[32%] md:right-[2%]
-          "
+          className={`
+            top-[27%] right-[3%] ${SMALL}
+            rotate-6
+            sm:top-[32%] sm:right-[0%] sm:w-36
+            md:top-[32%] md:right-[2%] md:w-40
+          `}
         />
 
-        {/* 6. Kanan Bawah (Lingkaran Sempurna) */}
+        {/* 4. Bawah — kecil (kiri, atas) */}
         <FloatingPhoto
-          src={assets.profile}
+          src={assets.nemo2}
+          alt="Class photo 2"
+          delay={0.2}
+          variant="square"
+          className={`
+            bottom-[22%] left-[3%] ${SMALL}
+            rotate-3
+            sm:bottom-auto sm:top-[26%] sm:left-[0%] sm:w-40
+            md:top-[25%] md:left-[2%] md:w-48
+          `}
+        />
+
+        {/* 5. Bawah — kecil (kiri, bawah) */}
+        <FloatingPhoto
+          src={assets.nemo3}
+          alt="Class memory 3"
+          delay={0.3}
+          variant="square"
+          className={`
+            bottom-[8%] left-[3%] ${SMALL}
+            -rotate-3
+            sm:bottom-[11%] sm:left-[4%] sm:w-40
+            md:bottom-[8%] md:left-[5%] md:w-52
+          `}
+        />
+
+        {/* 6. Bawah — besar (kanan) */}
+        <FloatingPhoto
+          src={assets.nemo5}
           alt="Class profile 6"
           delay={0.35}
           variant="circle"
-          className="
-            bottom-[6%] right-[0%]
-            w-36 sm:w-48 md:w-56
+          className={`
+            bottom-[8%] right-[3%] ${BIG}
             rotate-3
-            sm:right-[2%]
-            md:bottom-[4%] md:right-[5%]
-          "
+            sm:bottom-[11%] sm:right-[6%] sm:w-48
+            md:bottom-[8%] md:right-[5%] md:w-56
+          `}
         />
 
         {/* CENTER CONTENT */}

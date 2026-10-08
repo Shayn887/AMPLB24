@@ -17,7 +17,7 @@ const cards = [
       </div>
     ),
     className: "md:col-span-2 min-h-[300px]", 
-    thumbnail: assets.memo.src,
+    thumbnail: assets.nemo.src,
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const cards = [
       </div>
     ),
     className: "col-span-1 min-h-[300px]",
-    thumbnail: assets.memo1.src,
+    thumbnail: assets.nemo2.src,
   },
   {
     id: 3,
@@ -43,7 +43,7 @@ const cards = [
       </div>
     ),
     className: "col-span-1 min-h-[300px]",
-    thumbnail: assets.memo2.src,
+    thumbnail: assets.nemo4.src,
   },
   {
     id: 4,
@@ -56,7 +56,7 @@ const cards = [
       </div>
     ),
     className: "md:col-span-2 min-h-[300px]",
-    thumbnail: assets.Rpls.src,
+    thumbnail: assets.nemo6.src,
   },
 ];
 

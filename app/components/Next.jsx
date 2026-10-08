@@ -27,7 +27,7 @@ const destinations = [
     description:
       "Kenali Anggota anggota kelas kami",
     link: "/student",
-    image: assets.memo1.src,
+    image: assets.nemo6.src,
     icon: Users,
     accent: "from-violet-500/40 via-fuchsia-400/10 to-transparent",
   },
