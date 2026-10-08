@@ -77,7 +77,7 @@ export default function ImageWithSkeleton({
     >
       {isLoading && (
         <div className="absolute inset-0 bg-slate-800 animate-pulse flex items-center justify-center z-10 w-full h-full">
-          <div className="w-6 h-6 border-2 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+          <div className="w-6 h-6 border-2 border-emerald-500/20 border-t-pink-500 rounded-full animate-spin" />
         </div>
       )}
 
