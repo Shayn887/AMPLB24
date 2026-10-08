@@ -7,7 +7,7 @@ import { assets } from "@/assets/assets";
 const Header = ({ student }) => {
   return (
     <header className="w-full relative bg-slate-900 pb-4">
-      <div className="w-full h-36 sm:h-48 from-slate-900 relative overflow-hidden">
+      <div className="w-full h-36 sm:h-48 from-pink-900 relative overflow-hidden">
         <div className="absolute inset-0 opacity-40 bg-[radial-gradient(#rgba(255,255,255,0.1)_1px,transparent_1px)] [background-size:16px_16px]" />
       </div>
 

@@ -57,8 +57,8 @@ export default function StudentListPage({ students = [] }) {
   };
 
   return (
-    <main className="min-h-screen bg-[#eef1f4] text-slate-900 px-4 py-12 sm:px-8 relative overflow-hidden">
-      <div className="pointer-events-none absolute -top-32 -left-32 w-80 h-80 rounded-full bg-sky-300/20 blur-3xl" />
+    <main className="min-h-screen bg-[#f4eef4] text-slate-900 px-4 py-12 sm:px-8 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-32 -left-32 w-80 h-80 rounded-full bg-pink-300/20 blur-3xl" />
       <div className="pointer-events-none absolute top-1/3 -right-32 w-80 h-80 rounded-full bg-violet-300/15 blur-3xl" />
 
       <div className="max-w-7xl mx-auto relative z-10 space-y-12">
@@ -80,7 +80,7 @@ export default function StudentListPage({ students = [] }) {
             className="group w-full max-w-4xl rounded-[30px] border border-slate-200 bg-slate-950 p-1 shadow-[0_25px_80px_-35px_rgba(15,23,42,0.8)] transition-transform duration-300 hover:-translate-y-1"
           >
             <div className="rounded-[27px] bg-slate-950 p-6 sm:p-8 flex flex-col sm:flex-row items-center gap-7 overflow-hidden relative">
-              <div className="absolute -right-16 -top-20 w-56 h-56 rounded-full bg-sky-500/10 blur-3xl" />
+              <div className="absolute -right-16 -top-20 w-56 h-56 rounded-full bg-pink-500/10 blur-3xl" />
               <div className="absolute -left-12 -bottom-24 w-52 h-52 rounded-full bg-violet-500/10 blur-3xl" />
 
               <div className="relative w-36 h-36 sm:w-40 sm:h-40 rounded-full overflow-hidden border border-white/10 flex-shrink-0 shadow-2xl">
@@ -93,7 +93,7 @@ export default function StudentListPage({ students = [] }) {
               </div>
 
               <div className="relative z-10 min-w-0 text-center sm:text-left">
-                <div className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.2em] text-sky-300 mb-3">
+                <div className="inline-flex items-center gap-2 text-xs uppercase font-bold tracking-[0.2em] text-yellow-300 mb-3">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(52,211,153,0.8)]" />
                   {waliKelas.role}
                 </div>

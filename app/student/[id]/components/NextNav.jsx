@@ -21,7 +21,7 @@ const NextNav = ({ prevStudent, nextStudent }) => {
       {prevStudent && (
         <Link
           href={`/student/${prevStudent.id}`}
-          className="w-full max-w-md py-3 px-6 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-stone-200 text-center font-semibold rounded-xl transition-all shadow-md"
+          className="w-full max-w-md py-3 px-6 bg-slate-800 hover:bg-pink-700 text-stone-200 text-center font-semibold rounded-xl transition-all shadow-md"
         >
           {prevStudent.name}
         </Link>
@@ -30,7 +30,7 @@ const NextNav = ({ prevStudent, nextStudent }) => {
       {nextStudent && (
         <Link
           href={`/student/${nextStudent.id}`}
-          className="w-full max-w-md py-3 px-6 bg-stone-800 hover:bg-stone-700 border border-stone-600 text-stone-200 text-center font-semibold rounded-xl transition-all shadow-md"
+          className="w-full max-w-md py-3 px-6 bg-slate-800 hover:bg-pink-700 text-stone-200 text-center font-semibold rounded-xl transition-all shadow-md"
         >
           {nextStudent.name}
         </Link>

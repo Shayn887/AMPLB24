@@ -55,7 +55,7 @@ export default function StudentMessageSection({ student }) {
 
   return (
     <section className="w-full max-w-3xl mx-auto py-8 px-4 text-slate-100 relative">
-      <div className="bg-stone-900 border border-stone-800 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
+      <div className="bg-slate-900 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl">
         
         <div className="text-center space-y-2">
           <h2 className="text-xl sm:text-2xl font-bold">
@@ -98,7 +98,7 @@ export default function StudentMessageSection({ student }) {
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-stone-800/80 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
+        <form onSubmit={handleSubmit} className="bg-pink-800/30 border border-slate-700/70 rounded-2xl overflow-hidden shadow-xl">
           <div className="bg-slate-700/50 px-5 py-2.5 border-b border-slate-700 text-xs font-semibold text-slate-300 flex justify-between items-center">
             <span>Write your message.</span>
             <span className="text-[10px] text-slate-300 bg-slate-500/10 px-2 py-0.5 rounded border border-slate-300/20">
